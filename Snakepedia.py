@@ -192,7 +192,7 @@ html = """
 <p>Follow us on:</p>
 <a href="https://www.tiktok.com/@anas.web.designer?_t=8lwMG6sWH8o&_r=1"><i class="tworem ri-tiktok-fill"> </i></a> 
 <a href="https://youtube.com/@AnasMostafa12?si=XngsTAYi6Jue3vZP"><i class="tworem ri-youtube-fill"> </i> </a>
-<i class="tworem ri-github-fill"> </i> 
+<a href="https://github.com/anasmostafa1/anasmostafa1/tree/main"><i class="tworem ri-github-fill"> </i></a>
 </body>
 </html>
 """
