@@ -52,4 +52,4 @@ def summary():
         return jsonify(summary=None)
 
 if __name__ == '__main__':
-    app.run(debug=True,port=1111)
+    app.run(port=1111)
