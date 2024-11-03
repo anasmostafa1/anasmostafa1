@@ -6,7 +6,7 @@ from youtube_transcript_api.formatters import TextFormatter
 app = Flask(__name__)
 
 # Define your AI model API URL and key
-AI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=AIzaSyC4QESyWZwQ-XPBwr2KXC5iwO5l0rP40pU'
+AI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=Api-key'
 
 @app.route('/')
 def index():
