@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Assistant (Jarvis)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/2.1.3/marked.min.js"></script>
+    <style>
+        body {
+            background: linear-gradient(145deg, #0f2027, #203a43, #2c5364);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chat-box {
+            height: 400px;
+            overflow-y: auto;
+            border-radius: 15px;
+            padding: 20px;
+            background: #1e293b;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            font-family: 'Inter', sans-serif;
+            color: #e2e8f0;
+            position: relative;
+        }
+
+        .user-query input {
+            position: fixed;
+            background-color: #111827;
+            color: #e2e8f0;
+            border: 2px solid #3b82f6;
+            border-radius: 25px;
+            padding: 12px 20px;
+            font-size: 16px;
+            outline: none;
+            width: 475px;
+        }
+
+        .send-button {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .send-button:hover {
+            background-color: #2563eb;
+        }
+
+        .message {
+            padding: 10px 15px;
+            margin: 10px 0;
+            border-radius: 15px;
+            max-width: 80%;
+            word-wrap: break-word;
+            opacity: 0; /* Start with invisible message */
+            animation: fadeIn 0.5s forwards; /* Animation for fade in */
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1; /* Fade to visible */
+            }
+        }
+
+        .user-message {
+            background-color: #2563eb;
+            color: white;
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .assistant-message {
+            background-color: #374151;
+            color: #e2e8f0;
+        }
+
+        .bot-avatar,
+        .user-avatar {
+            display: inline-block;
+            background-color: #2563eb;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 18px;
+            line-height: 35px;
+            margin-right: 10px;
+        }
+
+        .user-avatar {
+            background-color: #15c6fc; /* Different color for the user avatar */
+        }
+
+        /* Placeholder styles */
+        .placeholder {
+            position: absolute;
+            top: 20px; /* Adjust based on padding */
+            left: 20px; /* Adjust based on padding */
+            color: #a0aec0; /* Placeholder color */
+            pointer-events: none; /* Prevent interaction */
+            transition: opacity 0.3s ease; /* Fade effect */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mx-auto p-4 max-w-lg">
+        <div class="chat-box p-6">
+            <!-- Chat messages will appear here -->
+            <div id="chat" class="space-y-4"></div>
+            <div class="placeholder text-xl" id="placeholder">How can i help you ?</div> <!-- Placeholder text -->
+        </div>
+
+        <div class="user-query mt-4 flex space-x-4">
+            <input type="text" id="query" class="flex-grow" placeholder="Type your message...">
+            <button id="sendBtn" class="send-button">Send</button>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#sendBtn').click(function () {
+                let query = $('#query').val().trim();  // Remove extra spaces
+
+                if (query.length > 0) {
+                    // Hide the placeholder when a message is sent
+                    $('#placeholder').css('opacity', '0');
+
+                    // Append user message to chat box with an avatar
+                    $('#chat').append(`
+                        <div class="flex items-center">
+                            <div class="user-avatar">
+                                <img src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png" alt="User Avatar">
+                            </div>
+                            <div class="message user-message">${query}</div>
+                        </div>
+                    `);
+                    $('#chat').scrollTop($('#chat')[0].scrollHeight);
+
+                    // Disable the send button while waiting for a response
+                    $('#sendBtn').prop('disabled', true);
+
+                    // Send message to the server
+                    $.ajax({
+                        url: '/ask',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({ query: query }),
+                        success: function (response) {
+                            // Convert Markdown to HTML using marked.js
+                            const assistantResponseHTML = marked.parse(response.response); // Use the correct method
+
+                            // Append assistant's response to chat box with an avatar
+                            $('#chat').append(`
+                                <div class="flex items-center">
+                                    <div class="bot-avatar">🤖</div>
+                                    <div class="message assistant-message">${assistantResponseHTML}</div>
+                                </div>
+                            `);
+                            $('#chat').scrollTop($('#chat')[0].scrollHeight);
+                            $('#query').val('');
+                        },
+                        error: function () {
+                            alert('Error occurred while processing your request.');
+                        },
+                        complete: function () {
+                            $('#sendBtn').prop('disabled', false);  // Enable send button
+                        }
+                    });
+                } else {
+                    alert('Please enter a valid query.');
+                }
+            });
+
+            // Hide the placeholder when typing starts
+            $('#query').focus(function () {
+                $('#placeholder').css('opacity', '0');
+            });
+
+            // Show placeholder if the input is empty
+            $('#query').on('input', function () {
+                if ($(this).val().trim() === '') {
+                    $('#placeholder').css('opacity', '1');
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

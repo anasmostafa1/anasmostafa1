@@ -1,0 +1,90 @@
+/* General body styles */
+body {
+    background: linear-gradient(to right, #6a11cb, #2575fc); /* Gradient background */
+    color: #fff; /* Text color for general content */
+    font-family: 'Arial', sans-serif; /* Font family */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+    margin: 0; /* Remove default margin */
+}
+
+/* Card styling */
+.card {
+    background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+    color: #333; /* Dark text for contrast */
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    transition: transform 0.2s; /* Smooth transform on hover */
+}
+
+/* Card hover effect */
+.card:hover {
+    transform: scale(1.02); /* Slight scale up on hover */
+}
+
+/* Form group styling */
+.form-group {
+    margin-bottom: 20px; /* Space below input */
+}
+
+/* Input styling */
+input[type="text"] {
+    border: 2px solid #007bff; /* Border color */
+    border-radius: 8px; /* Rounded corners */
+    padding: 10px; /* Padding */
+    transition: border-color 0.3s; /* Smooth transition for border color */
+}
+
+/* Input focus effect */
+input[type="text"]:focus {
+    border-color: #0056b3; /* Darker blue on focus */
+    outline: none; /* Remove outline */
+}
+
+/* Button styling */
+.btn-primary {
+    background-color: #007bff; /* Primary color */
+    border-color: #007bff; /* Border color */
+    border-radius: 8px; /* Rounded corners */
+    padding: 12px; /* Padding */
+    font-size: 16px; /* Font size */
+    transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
+}
+
+/* Button hover effect */
+.btn-primary:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+    border-color: #0056b3; /* Darker border on hover */
+    transform: translateY(-2px); /* Lift effect */
+}
+
+/* Summary styling */
+.summary {
+    background: #f8f9fa; /* Light background for summary */
+    color: #333; /* Dark text for readability */
+    border-radius: 8px; /* Rounded corners */
+    padding: 15px; /* Padding */
+    margin-top: 15px; /* Margin above summary */
+    display: none; /* Initially hidden */
+}
+
+/* Error message styling */
+.text-danger {
+    display: none; /* Initially hidden */
+    font-weight: bold; /* Bold text for errors */
+}
+
+/* Responsive media queries */
+@media (max-width: 576px) {
+    .card {
+        width: 90%; /* Full width on small screens */
+    }
+}
+
+@media (min-width: 577px) {
+    .card {
+        width: 400px; /* Fixed width on larger screens */
+    }
+}

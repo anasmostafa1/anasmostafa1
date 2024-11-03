@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Video Summary</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container-fluid d-flex align-items-center justify-content-center vh-100">
+        <div class="card shadow-lg p-5 rounded" style="width: 400px;">
+            <h1 class="text-center mb-4">YouTube Video Summary</h1>
+            <div class="form-group">
+                <input type="text" id="videoId" class="form-control" placeholder="Enter YouTube Video ID">
+            </div>
+            <button id="getSummary" class="btn btn-primary btn-block">
+                <i class="fas fa-paper-plane"></i> Get Summary
+            </button>
+            <div id="summary" class="summary mt-4 p-3 border rounded" style="display:none;"></div> <!-- Summary will show here -->
+            <div id="error" class="text-danger mt-2" style="display:none;"></div> <!-- Error messages will show here -->
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#getSummary').click(function() {
+                const videoId = $('#videoId').val().trim();
+                $('#error').hide(); // Hide any previous error messages
+                $('#summary').hide(); // Hide summary until we get a new one
+
+                if (videoId === '') {
+                    $('#error').text('Please enter a valid YouTube Video ID.').show();
+                    return;
+                }
+
+                $.ajax({
+                    url: '/summary',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ videoId: videoId }),
+                    success: function(response) {
+                        if (response.summary) {
+                            $('#summary').text(response.summary).show();
+                        } else {
+                            $('#error').text('Error summarizing the transcript.').show();
+                        }
+                    },
+                    error: function() {
+                        $('#error').text('Error retrieving summary.').show();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
