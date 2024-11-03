@@ -1,3 +1,0 @@
-0 black
-1 white
-2 brown
