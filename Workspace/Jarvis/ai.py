@@ -60,4 +60,4 @@ def ask():
 
 # Run the Flask app
 if __name__ == '__main__':
-    app.run(port=2222)
+    app.run(debug=True,port=2222)

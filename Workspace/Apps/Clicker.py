@@ -2,7 +2,7 @@ import pyautogui
 import time
 
 # Define the number of clicks and the interval between each click
-num_clicks = 100
+num_clicks = 250
 
 # Give some time to switch to the target application
 print("You have 5 seconds to switch to the target window...")
